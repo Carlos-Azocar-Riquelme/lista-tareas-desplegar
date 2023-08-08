@@ -10,7 +10,12 @@
       <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
           <div class="d-flex">
-            hola mundo
+            {% if user.is_authenticated %}
+            <strong> hola {{user.username}}</strong>
+              <a class= "btn btn-danger" href="#">Cerrar sesión</a>
+            {% else %}
+              <a class= "btn btn-danger" href="#">Iniciar sesión</a>
+            {% endif %}
           </div>
         </div>
       </nav>     
