@@ -64,3 +64,12 @@ def v_completado(request, tarea_id):
   task.estado = 1
   task.save()
   return HttpResponseRedirect('/')
+
+
+
+def v_login(request):
+  pass
+
+
+def v_logount(request):
+  pass
