@@ -10,16 +10,16 @@
       <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
           <a class="navbar-brand">Navbar</a>
-          <div class="d-flex">
+          <div class="d-flex align-items-center">
             {% if user.is_authenticated %}
-            <strong> hola {{user.username}}</strong>
-              <a class= "btn btn-danger" href="#">Cerrar sesión</a>
+            <strong>Hola {{ user.username }}</strong>
+            <a class="btn btn-danger btn-sm" href="/cerrar-sesion">Cerrar sesion</a>
             {% else %}
-              <a class= "btn btn-danger" href="#">Iniciar sesión</a>
+            <a class="btn btn-danger" href="/iniciar-sesion">Iniciar sesion</a>
             {% endif %}
           </div>
         </div>
-      </nav>     
+      </nav>
       {% block content %} {% endblock %}
     </div>
   </body>
