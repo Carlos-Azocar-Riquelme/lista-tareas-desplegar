@@ -2,15 +2,19 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from administrar.models import Tarea  # Importar el modelo
 from .forms import TareaForm  # Para validar
+from django.contrib.auth.decorators import login_required, permission_required
 
 # Create your views here.
 
-
+@login_required(login_url="/iniciar-sesion")
+@permission_required('administrar.view_tarea', login_url="/iniciar-sesion")
 def v_index(request):
     if request.method == 'POST':
         ######
         # Post, voy a crear un registro
         ######
+        if not request.user.has_perm("administrar.add_tarea"):
+            return HttpResponseRedirect("permission-denied")
         _titulo = request.POST["titulo"]
 
         datos = request.POST.copy()
@@ -59,11 +63,15 @@ def v_index(request):
         return render(request, 'pagina_x.html', context)
 
 
+
+@login_required(login_url="/iniciar-sesion")
+@permission_required('administrar.delete_tarea', login_url="/iniciar-sesion")
 def v_eliminar(request, tarea_id):
     Tarea.objects.filter(id=tarea_id).delete()
     return HttpResponseRedirect("/")  # Redirigir
 
-
+@login_required(login_url="/iniciar-sesion")
+@permission_required('administrar.change_tarea', login_url="/iniciar-sesion")
 def v_completado(request, tarea_id):
     task = Tarea.objects.get(id=tarea_id)
     task.estado = 1
@@ -103,3 +111,9 @@ def v_logout(request):
         logout(request)  # Aqui se cierra la sesion
 
     return HttpResponseRedirect("/")
+
+
+def v_permission_denied(request):
+
+    return render(request, 'permission-denied.html' )
+
